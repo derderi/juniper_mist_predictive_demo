@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maintenance — Juniper Mist Demo</title>
+
+<!-- Simple styling -->
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  margin: 0;
+  padding: 0;
+}
+header {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+}
+header h1 {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+header h2 {
+  font-size: 1.5rem;
+  color: #94a3b8;
+}
+main {
+  padding: 2rem;
+}
+.dashboard {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+h3 {
+  color: #3b82f6;
+  margin-top: 0;
+}
+.stats {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.stat-box {
+  background: #0f172a;
+  border-radius: 12px;
+  padding: 1rem;
+  flex: 1;
+  margin: 0.5rem;
+  text-align: center;
+}
+.alert-feed {
+  background: #0f172a;
+  border-radius: 12px;
+  padding: 1rem;
+  height: 250px;
+  overflow-y: auto;
+}
+.alert-item {
+  padding: 6px 8px;
+  background: #1e293b;
+  color: #e2e8f0;
+  margin-bottom: 6px;
+  border-left: 4px solid #3b82f6;
+  border-radius: 6px;
+  font-size: 0.9em;
+  animation: fadeIn 0.6s ease;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(4px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: #64748b;
+  font-size: 0.9em;
+}
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+button:hover {
+  background: #2563eb;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Maintenance — Juniper Mist Demo</h1>
+  <h2>Predictive Maintenance Dashboard</h2>
+</header>
+
+<main>
+  <div class="dashboard">
+    <h3>Predictive Maintenance — Juniper Mist Demo</h3>
+
+    <div class="toggle">
+      <label><input type="checkbox" id="autoPredict" checked> Auto Predict</label>
+      <button onclick="updateDashboard()">Refresh</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-box">
+        <h4>Total Devices</h4>
+        <p id="totalDevices">8</p>
+      </div>
+      <div class="stat-box">
+        <h4>Avg Risk Score</h4>
+        <p id="avgRisk">--%</p>
+      </div>
+      <div class="stat-box">
+        <h4>Predictions (24h)</h4>
+        <p id="predictions">--</p>
+      </div>
+      <div class="stat-box">
+        <h4>High Risk</h4>
+        <p id="highRisk">0</p>
+      </div>
+    </div>
+
+    <h4>Alerts Feed (Updated: <span id="updateTime">--:--:--</span>)</h4>
+    <div class="alert-feed" id="alertsFeed"></div>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 Juniper Mist Predictive Demo — by FA
+  </div>
+</main>
+
+<script>
+const devices = [
+  { name: "Device-1", model: "QFX5100", location: "Giza-Branch" },
+  { name: "Device-2", model: "MX204", location: "Alex-RD" },
+  { name: "Device-3", model: "AP45", location: "Aswan-Edge" },
+  { name: "Device-4", model: "QFX5100", location: "Cairo-Core" },
+  { name: "Device-5", model: "MX240", location: "Suez-DC" },
+  { name: "Device-6", model: "EX4650", location: "Luxor-Access" },
+  { name: "Device-7", model: "EX4650", location: "Aswan-Edge" },
+  { name: "Device-8", model: "QFX5120", location: "Alex-Access" }
+];
+
+function updateDashboard() {
+  const now = new Date();
+  document.getElementById("updateTime").textContent = now.toLocaleTimeString();
+
+  const alertFeed = document.getElementById("alertsFeed");
+  alertFeed.innerHTML = "";
+
+  let totalRisk = 0;
+  let highRisk = 0;
+  let predictions = 0;
+
+  devices.forEach(d => {
+    const risk = Math.floor(Math.random() * 70) + 20;
+    totalRisk += risk;
+    if (risk > 60) highRisk++;
+    if (risk > 50) predictions++;
+
+    const div = document.createElement("div");
+    div.className = "alert-item";
+    div.innerHTML = `<strong>${d.name}</strong> — WARNING<br>
+                     Risk ${risk}% • ${d.model} • ${d.location}`;
+    alertFeed.appendChild(div);
+  });
+
+  document.getElementById("avgRisk").textContent = Math.round(totalRisk / devices.length) + "%";
+  document.getElementById("predictions").textContent = predictions;
+  document.getElementById("highRisk").textContent = highRisk;
+  document.getElementById("totalDevices").textContent = devices.length;
+}
+
+// Auto update every 5 seconds if enabled
+setInterval(() => {
+  if (document.getElementById("autoPredict").checked) {
+    updateDashboard();
+  }
+}, 5000);
+
+window.onload = updateDashboard;
+</script>
+
+</body>
+</html>
