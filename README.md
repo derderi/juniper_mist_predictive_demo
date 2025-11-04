@@ -1,4 +1,4 @@
-# Juniper Mist Predictive Maintenance Demo
+﻿# Juniper Mist Predictive Maintenance Demo
 
 This is a simple **interactive HTML5 dashboard** simulating Juniper Mist AI predictive maintenance features.
 
@@ -11,16 +11,12 @@ This is a simple **interactive HTML5 dashboard** simulating Juniper Mist AI pred
 
 ## 🚀 How to Use
 1. Download the ZIP and extract it.
-2. Open `juniper_mist_predictive_demo.html` in your web browser.
-3. Click **Run Predictions** or enable **Auto Predict** to simulate live updates.
+2. Open `index.html` in your web browser.
+3. Click **Refresh** or enable **Auto Predict** to simulate live updates.
 
 ## 🌐 Deploying on GitHub Pages
-1. Create a new public repository on GitHub.
-2. Upload the file `juniper_mist_predictive_demo.html`.
-3. Rename it to `index.html` if you wish.
-4. Enable GitHub Pages in your repo settings → Pages → Source: `main branch / root`.
-5. Your demo will be live at `https://your-username.github.io/repo-name`.
-
----
-Author: FA  
-Technology: HTML5 + CSS3 + JavaScript (Vanilla)
+1. Create a new **public repository** on GitHub.
+2. Upload the files (`index.html`, `README.md`).
+3. In your repository settings, go to:
+   - **Settings → Pages → Source:** `main branch / root`
+4. After saving, your app will be live at:
